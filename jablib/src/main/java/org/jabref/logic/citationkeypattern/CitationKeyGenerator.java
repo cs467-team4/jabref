@@ -158,9 +158,9 @@ public class CitationKeyGenerator extends BracketedPattern {
 
         String newKey = createCitationKeyFromPattern(entry);
         newKey = replaceWithRegex(newKey);
+        newKey = transliterateIfNeeded(newKey);
         newKey = appendLettersToKey(newKey, currentKey);
-        newKey = cleanKey(newKey, unwantedCharacters);
-        return transliterateIfNeeded(newKey);
+        return cleanKey(newKey, unwantedCharacters);
     }
 
     /// A letter will be appended to the key based on the user's preferences, either always or to prevent duplicated keys.

@@ -1171,5 +1171,21 @@ class CitationKeyGeneratorTest {
                 .withField(StandardField.YEAR, year);
         assertEquals(expected, generateKey(entry, "[auth][year]"));
     }
+
+    @Test
+    void transliteratedKeyGetsLetterAppendedWhenItCollidesWithExistingKey() {
+        // 张 and 章 are different surnames, but both transliterate to "zhang"
+        BibDatabase database = new BibDatabase();
+        database.insertEntry(new BibEntry()
+                .withField(StandardField.AUTHOR, "张")
+                .withField(StandardField.YEAR, "2020")
+                .withCitationKey("zhang2020"));
+        BibEntry entry = new BibEntry()
+                .withField(StandardField.AUTHOR, "章")
+                .withField(StandardField.YEAR, "2020");
+        database.insertEntry(entry);
+
+        assertEquals("zhang2020a", generateKey(entry, "[auth][year]", database));
+    }
 }
 
